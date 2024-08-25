@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<!--Верхняя навигационная панель-->
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+    <div class="container-fluid">
+         <span class="navbar-text">
+                <h5 class="text-white bg-dark" id="user-info"></h5>
+            </span>
+        <form class="form-signin" method="get" action="/logout">
+            <button class="btn btn-outline-light border-0" type="submit">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <!--        Левая боковая панель-->
+    <div id="sidebar" class="bg-light p-4" style="min-width: 200px;">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="/admin">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user">User</a>
+            </li>
+        </ul>
+    </div>
+    <!--главное отображение (вкладки/таблица)-->
+    <div id="content" class="p-4" style="flex: 1;">
+        <h2 class="mb-4">Admin panel</h2>
+        <!--вкладки-->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#users-table" data-toggle="tab">Users table</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#add-user" data-toggle="tab">New User</a>
+            </li>
+        </ul>
+<!--        Таблица/новый пользователь-->
+        <div class="tab-content mt-4">
+<!--            Таблица-->
+            <div class="tab-pane fade show active" id="users-table">
+                <h4>All users</h4>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Roles</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                    </tbody>
+                </table>
+            </div>
+<!--Новый пользователь-->
+            <div class="tab-pane fade" id="add-user">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+                    <div class="w-50">
+                        <h4 class="text-center">Add new user</h4>
+                        <form id="user-form">
+                            <div class="form-group">
+                                <label for="firstName">First name</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last name</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" class="form-control" id="age" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="roles">Roles</label>
+                                <select class="form-control" id="roles" multiple required>
+
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Save user</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для редактирования -->
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-user-form">
+                    <input type="hidden" id="edit-user-id">
+                    <div class="form-group">
+                        <label for="editFirstName">First name</label>
+                        <input type="text" class="form-control" id="editFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last name</label>
+                        <input type="text" class="form-control" id="editLastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAge">Age</label>
+                        <input type="number" class="form-control" id="editAge" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" class="form-control" id="editEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password</label>
+                        <input type="password" class="form-control" id="editPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="editRoles">Roles</label>
+                        <select class="form-control" id="editRoles" multiple>
+
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/webjars/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script src="/Admin.js"></script>
+</body>
+</html>
